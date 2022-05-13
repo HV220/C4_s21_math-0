@@ -1,95 +1,161 @@
 #include <check.h>
+#include <stdlib.h>
 
 #include "s21_math.h"
 
 // 1
-START_TEST(test_s21_abs) {
-    ck_assert_int_eq(s21_abs(-2), abs(-2));
-    ck_assert_int_eq(s21_abs(-5), abs(-5));
-    ck_assert_int_eq(s21_abs(5), abs(5));
-    ck_assert_int_eq(s21_abs(5.0), abs(5.0));
-
+START_TEST(s21_abs_Test) {
+    // test
 }
 END_TEST
 
-
-//5
-START_TEST(test_s21_ceil) {
-    ck_assert_ldouble_eq(s21_ceil(-2.9), ceil(-2.9));
-    ck_assert_ldouble_eq(s21_ceil(2.9), ceil(2.9));
-    ck_assert_ldouble_eq(s21_ceil(-5.4), ceil(-5.4));
-    ck_assert_ldouble_eq(s21_ceil(5), ceil(5));
-    ck_assert_ldouble_eq(s21_ceil(0.0001), ceil(0.0001));
-    ck_assert_ldouble_eq(s21_ceil(-0.0001), ceil(-0.0001));
-
+// 2
+START_TEST(s21_acos_Test) {
+    // test
 }
 END_TEST
 
-// 8 
-START_TEST(test_s21_fabs) {
-    ck_assert_ldouble_eq(s21_fabs(-2), fabs(-2));
-    ck_assert_ldouble_eq(s21_fabs(-5), fabs(-5));
-    ck_assert_ldouble_eq(s21_fabs(5), fabs(5));
-    ck_assert_ldouble_eq(s21_fabs(5.0), fabs(5.0));
+// 3
+START_TEST(s21_asin_Test) {
+    // test
+}
+END_TEST
 
+// 4
+START_TEST(s21_atan_Test) {
+    // test
+}
+END_TEST
+
+// 5
+START_TEST(s21_ceil_Test) {
+    // test
+}
+END_TEST
+
+// 6
+START_TEST(s21_cos_Test) {
+    // test
+}
+END_TEST
+
+// 7
+START_TEST(s21_exp_Test) {
+    // test
+}
+END_TEST
+
+// 8
+START_TEST(s21_fabs_Test) {
+    // test
 }
 END_TEST
 
 // 9
-START_TEST(test_s21_floor) {
-    ck_assert_ldouble_eq(s21_floor(-2), floor(-2));
-    ck_assert_ldouble_eq(s21_floor(-5), floor(-5));
-    ck_assert_ldouble_eq(s21_floor(0.00005), floor(0.00005));
-    ck_assert_ldouble_eq(s21_floor(-0.00005), floor(-0.00005));
-    ck_assert_ldouble_eq(s21_floor(5.0), floor(5.0));
-    ck_assert_ldouble_eq(s21_floor(2), floor(2));
+START_TEST(s21_floor_Test) {
+    // test
 }
 END_TEST
 
 // 10
-START_TEST(test_s21_fmod) {
-    ck_assert_ldouble_eq(s21_fmod(7,3), fmod(7,3));
-    ck_assert_ldouble_eq(s21_fmod(15.4, 5), fmod(15.4, 5));
-    ck_assert_ldouble_eq(s21_fmod(123456789, 54321), fmod(123456789, 54321));
-    // ck_assert_ldouble_eq(s21_fmod(32, 0), fmodl(32, 0));
-    ck_assert_ldouble_eq(s21_fmod(0, 5.0), fmod(0, 5.0));
-    ck_assert_ldouble_eq(s21_fmod(23, 2), fmod(23, 2));
-    ck_assert_ldouble_eq(s21_fmod(-23, 2), fmod(-23, 2));
-    ck_assert_ldouble_eq(s21_fmod(23, -2), fmod(23, -2));
-    ck_assert_ldouble_eq(s21_fmod(-23, -2), fmod(-23, -2));
-    ck_assert_ldouble_eq(s21_fmod(23, 1), fmod(23, 1));
-    
+START_TEST(s21_fmod_Test) {
+    // test
+}
+END_TEST
+
+// 11
+START_TEST(s21_log_Test) {
+    // test
+}
+END_TEST
+
+// 12
+START_TEST(s21_pow_Test) {
+    // test
+}
+END_TEST
+
+// 13
+START_TEST(s21_sin_Test) {
+    // test
+}
+END_TEST
+
+// 14
+START_TEST(s21_sqrt_Test) {
+    // test
+}
+END_TEST
+
+// 15
+START_TEST(s21_tan_Test) {
+    // test
 }
 END_TEST
 
 int main() {
     Suite *suite = suite_create("S21_Debuger");
     SRunner *srunner = srunner_create(suite);
-    
-    // 1
-    TCase *s21_absCase = tcase_create("s21_absCase");
-    suite_add_tcase(suite, s21_absCase);
-    tcase_add_test(s21_absCase, test_s21_abs);
-   
-    // 5
-    TCase *s21_ceilCase = tcase_create("s21_ceilCase");
-    suite_add_tcase(suite, s21_ceilCase);
-    tcase_add_test(s21_ceilCase, test_s21_ceil);
 
-    //8
-    TCase *s21_fabsCase = tcase_create("s21_fabsCase");
-    suite_add_tcase(suite, s21_fabsCase);
-    tcase_add_test(s21_fabsCase, test_s21_fabs);
-    
-    //9
-    TCase *s21_floorCase = tcase_create("s21_floorCase");
-    suite_add_tcase(suite, s21_floorCase);
-    tcase_add_test(s21_floorCase, test_s21_floor);
+    TCase *s21_abs_Case = tcase_create("s21_abs_Case");
+    suite_add_tcase(suite, s21_abs_Case);
+    tcase_add_test(s21_abs_Case, s21_abs_Test);
 
-    //10
-    TCase *s21_fmodCase = tcase_create("s21_fmodCase");
-    suite_add_tcase(suite, s21_fmodCase);
-    tcase_add_test(s21_fmodCase, test_s21_fmod);
+    TCase *s21_acos_Case = tcase_create("s21_acos_Case");
+    suite_add_tcase(suite, s21_acos_Case);
+    tcase_add_test(s21_acos_Case, s21_acos_Test);
+
+    TCase *s21_asin_Case = tcase_create("s21_asin_Case");
+    suite_add_tcase(suite, s21_asin_Case);
+    tcase_add_test(s21_asin_Case, s21_asin_Test);
+
+    TCase *s21_atan_Case = tcase_create("s21_atan_Case");
+    suite_add_tcase(suite, s21_atan_Case);
+    tcase_add_test(s21_atan_Case, s21_atan_Test);
+
+    TCase *s21_ceil_Case = tcase_create("s21_ceil_Case");
+    suite_add_tcase(suite, s21_ceil_Case);
+    tcase_add_test(s21_ceil_Case, s21_ceil_Test);
+
+    TCase *s21_cos_Case = tcase_create("s21_cos_Case");
+    suite_add_tcase(suite, s21_cos_Case);
+    tcase_add_test(s21_cos_Case, s21_cos_Test);
+
+    TCase *s21_exp_Case = tcase_create("s21_exp_Case");
+    suite_add_tcase(suite, s21_exp_Case);
+    tcase_add_test(s21_exp_Case, s21_exp_Test);
+
+    TCase *s21_fabs_Case = tcase_create("s21_fabs_Case");
+    suite_add_tcase(suite, s21_fabs_Case);
+    tcase_add_test(s21_fabs_Case, s21_fabs_Test);
+
+    TCase *s21_floor_Case = tcase_create("s21_floor_Case");
+    suite_add_tcase(suite, s21_floor_Case);
+    tcase_add_test(s21_floor_Case, s21_floor_Test);
+
+    TCase *s21_fmod_Case = tcase_create("s21_fmod_Case");
+    suite_add_tcase(suite, s21_fmod_Case);
+    tcase_add_test(s21_fmod_Case, s21_fmod_Test);
+
+    TCase *s21_log_Case = tcase_create("s21_log_Case");
+    suite_add_tcase(suite, s21_log_Case);
+    tcase_add_test(s21_log_Case, s21_log_Test);
+
+    TCase *s21_pow_Case = tcase_create("s21_pow_Case");
+    suite_add_tcase(suite, s21_pow_Case);
+    tcase_add_test(s21_pow_Case, s21_pow_Test);
+
+    TCase *s21_sin_Case = tcase_create("s21_sin_Case");
+    suite_add_tcase(suite, s21_sin_Case);
+    tcase_add_test(s21_sin_Case, s21_sin_Test);
+
+    TCase *s21_sqrt_Case = tcase_create("s21_sqrt_Case");
+    suite_add_tcase(suite, s21_sqrt_Case);
+    tcase_add_test(s21_sqrt_Case, s21_sqrt_Test);
+
+    TCase *s21_tan_Case = tcase_create("s21_tan_Case");
+    suite_add_tcase(suite, s21_tan_Case);
+    tcase_add_test(s21_tan_Case, s21_tan_Test);
 
     srunner_run_all(srunner, CK_VERBOSE);
     int number_failed = srunner_ntests_failed(srunner);
