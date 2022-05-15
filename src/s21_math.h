@@ -6,12 +6,10 @@
 #define s21_INF 1.0 / 0.0
 #define s21_NAN 0.0 / 0.0
 #define S21_E 2.71828182845904523536028747135266250
-#define s21_PI 3.14159265358979324
+#define s21_PI 3.14159265358979323846264338327950288
 #define s21_LN10 2.30258509299404590109
 
 
-
-double delete (double x);
 
 struct special {
     int sign;

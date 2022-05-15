@@ -1,5 +1,5 @@
 #include "s21_math.h"
-
+#include <stdio.h>
 #include <math.h>
 
 // 1
@@ -91,8 +91,9 @@ long double s21_sin(double x) {
     long double i = 1.;
     while (s21_fabs(result) > s21_EPS) {
         result = -1 * result * x * x / (2 * i * (2 * i + 1));
-        i += 1.;
+        i += 1;
         temp += result;
+        printf("%.11Lf ", result);
     }
     return temp;
 }
@@ -148,12 +149,4 @@ void translate(double x, struct special *_special) {
     _special->mantisa = x;
     _special->pow = i;
     _special->e = es;
-}
-
-long double factorial(double lim) {
-    long double fact = 1;
-    for (long double count = 1; count <= lim; count++) {
-        fact *= count;
-    }
-    return fact;
 }
