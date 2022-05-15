@@ -5,9 +5,7 @@
 // 1
 int s21_abs(int x) { return (x < 0) ? -x : x; }
 // 2
-long double s21_acos(double x) {
-    return s21_PI/2-asin(x);
-}
+long double s21_acos(double x) { return s21_PI / 2 - asin(x); }
 // 3
 long double s21_asin(double x) {
     double tmp = x;
@@ -15,7 +13,7 @@ long double s21_asin(double x) {
     int status = 0;
     x<-1 || x> 1 ? (result = s21_NAN), (status = 1) : (status = 0);
     x == -1 || x == 1 ? (result = s21_PI / 2 * x), (status = 1) : (status = 0);
-    for (long double count = 1; count < 10000000 && status == 0; count++) {
+    for (long double count = 1; count < 1000000 && status == 0; count++) {
         tmp *= ((x * x) * (2 * count - 1) * (2 * count - 1)) /
                ((2 * count) * (2 * count + 1));
         result += tmp;
@@ -23,7 +21,9 @@ long double s21_asin(double x) {
     return result;
 }
 // 4
-long double s21_atan(double x) { return asin(x / (sqrt(1 + pow(x, 2)))); }
+long double s21_atan(double x) {
+    return s21_asin(x / (s21_sqrt(1 + s21_pow(x, 2))));
+}
 
 // 5
 long double s21_ceil(double x) {
@@ -32,7 +32,12 @@ long double s21_ceil(double x) {
                : (double)((int)x);
 }
 // 6
-long double s21_cos(double x) { return s21_sin(s21_PI / 2 - x); }
+long double s21_cos(double x) {
+    while (x > s21_PI || x < -s21_PI) {
+        x += x > s21_PI ? -2 * s21_PI : 2 * s21_PI;
+    }
+    return s21_sin(s21_PI / 2 - x);
+}
 
 // 7
 long double s21_exp(double x) {
@@ -79,7 +84,9 @@ long double s21_pow(double base, double exp) {
 }
 // 13
 long double s21_sin(double x) {
-    x = delete (x);
+    while (x > s21_PI || x < -s21_PI) {
+        x += x > s21_PI ? -2 * s21_PI : 2 * s21_PI;
+    }
     long double result = x, temp = x;
     long double i = 1.;
     while (s21_fabs(result) > s21_EPS) {
@@ -95,9 +102,7 @@ long double s21_sqrt(double x) {
     return s21_pow(S21_E, (long double)0.5 * s21_log((long double)x));
 }
 // 15
-long double s21_tan(double x) {
-    return (s21_sin(delete (x)) / s21_cos(delete (x)));
-}
+long double s21_tan(double x) { return (long double)(s21_sin(x) / s21_cos(x)); }
 
 long double log_0_2(double x) {
     x--;
@@ -143,13 +148,6 @@ void translate(double x, struct special *_special) {
     _special->mantisa = x;
     _special->pow = i;
     _special->e = es;
-}
-
-double delete (double x) {
-    while (x > s21_PI || x < -s21_PI) {
-        x += x > s21_PI ? -2 * s21_PI : 2 * s21_PI;
-    }
-    return x;
 }
 
 long double factorial(double lim) {
