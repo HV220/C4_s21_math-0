@@ -10,14 +10,6 @@
 #define s21_LN10 2.30258509299404590109
 
 
-
-struct special {
-    int sign;
-    long double mantisa;
-    long double pow;
-    int e;
-};
-
 int s21_abs(int x);
 long double s21_acos(double x);
     long double s21_asin(double x);
@@ -34,7 +26,4 @@ long double s21_pow(double base, double exp);
 long double s21_sqrt(double x);
 long double s21_tan(double x);
 
-long double log_0_2(double x);
-long double log_other(double x);
-void translate(double x, struct special *_special);
 #endif  //  SRC_S21_MATH_H_

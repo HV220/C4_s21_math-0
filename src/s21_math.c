@@ -3,8 +3,6 @@
 #include <math.h>
 #include <stdio.h>
 
-long double s212_log(double x);
-
 // 1
 int s21_abs(int x) { return (x < 0) ? -x : x; }
 // 2
@@ -12,15 +10,17 @@ long double s21_acos(double x) { return s21_PI / 2 - asin(x); }
 // 3
 long double s21_asin(double x) {
     double tmp = x;
-    double result;
-    int status = 0;
-    x<-1 || x> 1 ? (result = s21_NAN, status = 1) : (status = 0);
-    x == -1 || x == 1 ? (result = s21_PI / 2 * x), (status = 1) : (status = 0);
-    result = x;
-    for (long double count = 1; count < 1000000 && status == 0; count++) {
+    double result = x;
+    if (x < -1 || x > 1) {
+        result = s21_NAN;
+    } else if (x == -1 || x == 1) {
+        result = s21_PI / 2 * x;
+    } else {
+        for (long double count = 1; s21_fabs(tmp) > s21_EPS; count++) {
         tmp *= ((x * x) * (2 * count - 1) * (2 * count - 1)) /
                ((2 * count) * (2 * count + 1));
         result += tmp;
+        }
     }
     return result;
 }
@@ -97,7 +97,7 @@ long double s21_log(double x) {
         result = x;
         temp = x;
         while (s21_fabs(result) > s21_EPS) {
-            result *= -x*(count - 1)/count;
+            result *= -x * (count - 1) / count;
             count += 1;
             temp += result;
         }
