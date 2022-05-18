@@ -5,8 +5,7 @@ int s21_abs(int x) { return (x < 0) ? -x : x; }
 long double s21_acos(double x) { return s21_PI / 2 - s21_asin(x); }
 
 long double s21_asin(double x) {
-    double tmp = x;
-    double result = x;
+    double tmp = x, result = x;
     if (x < -1 || x > 1) {
         result = s21_NAN;
     } else if (x == -1 || x == 1) {
@@ -24,7 +23,7 @@ long double s21_asin(double x) {
 long double s21_atan(double x) {
     long double temp = 0;
     if (x < 1 && x > -1 && x != 0)
-        temp = atan_1_1(x);
+        temp = atan_calc(x);
     else if (x == 0)
         temp = 0;
     else if (x == 1)
@@ -32,9 +31,9 @@ long double s21_atan(double x) {
     else if (x == -1)
         temp = -s21_PI / 4;
     else if (x > 1)
-        temp = s21_PI / 2 - atan_1_1(1 / x);
+        temp = s21_PI / 2 - atan_calc(1 / x);
     else
-        temp = -s21_PI / 2 - atan_1_1(1 / x);
+        temp = -s21_PI / 2 - atan_calc(1 / x);
     return temp;
 }
 
@@ -50,9 +49,7 @@ long double s21_cos(double x) {
 }
 
 long double s21_exp(double x) {
-    long double result = 1;
-    long double temp = 1;
-    long double i = 1;
+    long double result = 1, temp = 1, i = 1;
     int flag = 0;
     if (x < 0) {
         x *= -1;
@@ -84,11 +81,7 @@ long double s21_fmod(double x, double y) {
 }
 
 long double s21_log(double x) {
-    long double sign = 1;
-    long double degree = 0;
-    long double count = 2;
-    long double result;
-    long double temp;
+    long double sign = 1, degree = 0, count = 2, result, temp;
     x < 0 ? (x *= -1, sign *= -1) : (x *= 1, sign *= 1);
     while ((x >= 10) || (x < 1 && x > 0))
         x<1 && x> 0 ? (x *= 10, degree -= 1) : (x *= 0.1, degree += 1);
@@ -149,7 +142,6 @@ long double s21_pow(double base, double exp) {
             number = 1;
         else
             number = 0;
-
     } else if (base == 1) {
         number = 1;
     } else {
@@ -182,7 +174,6 @@ long double s21_sin(double x) {
         pow *= -1 * x * x;
         fact *= (2 * (i + 1)) * (2 * (i + 1) + 1);
     }
-
     return res;
 }
 
@@ -201,7 +192,7 @@ long double s21_sqrt(double x) {
 }
 long double s21_tan(double x) { return (long double)(s21_sin(x) / s21_cos(x)); }
 
-long double atan_1_1(double x) {
+long double atan_calc(double x) {
     long double result = x, temp = x, i = 1;
     while (s21_fabs(result) > s21_EPS) {
         result = -1 * result * x * x * (2 * i - 1) / (2 * i + 1);

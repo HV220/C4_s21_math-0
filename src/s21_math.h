@@ -25,6 +25,6 @@ long double s21_sin(double x);
 long double s21_sqrt(double x);
 long double s21_tan(double x);
 
-long double atan_1_1(double x);
+long double atan_calc(double x);
 
 #endif  //  SRC_S21_MATH_H_
