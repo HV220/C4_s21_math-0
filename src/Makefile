@@ -13,13 +13,13 @@ s21_math.a: s21_math.o
 	ranlib ls21_math.a
 
 s21_math.o: s21_math.c
-	$(CC) -c s21_math.c -o s21_math.o
+	$(CC) $(CFLAGS) -c s21_math.c -o s21_math.o
 
 test: s21_math.a
-	$(CC) test.c s21_math.a -o test $(LIBS)
+	$(CC) $(CFLAGS) test.c s21_math.a -o test $(LIBS)
 	./test
 
-gcov_report: s21_math.a
+gcov_report: clean s21_math.a
 	$(CC) $(CFLAGS) $(GFLAGS) test.c s21_math.c s21_math.a -o test $(LIBS)
 	./test
 	lcov -t "test" -o test.info -c -d .

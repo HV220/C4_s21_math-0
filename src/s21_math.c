@@ -1,13 +1,9 @@
 #include "s21_math.h"
 
-#include <math.h>
-#include <stdio.h>
-
-// 1
 int s21_abs(int x) { return (x < 0) ? -x : x; }
-// 2
-long double s21_acos(double x) { return s21_PI / 2 - asin(x); }
-// 3
+
+long double s21_acos(double x) { return s21_PI / 2 - s21_asin(x); }
+
 long double s21_asin(double x) {
     double tmp = x;
     double result = x;
@@ -17,33 +13,42 @@ long double s21_asin(double x) {
         result = s21_PI / 2 * x;
     } else {
         for (long double count = 1; s21_fabs(tmp) > s21_EPS; count++) {
-        tmp *= ((x * x) * (2 * count - 1) * (2 * count - 1)) /
-               ((2 * count) * (2 * count + 1));
-        result += tmp;
+            tmp *= ((x * x) * (2 * count - 1) * (2 * count - 1)) /
+                   ((2 * count) * (2 * count + 1));
+            result += tmp;
         }
     }
     return result;
 }
-// 4
+
 long double s21_atan(double x) {
-    return s21_asin(x / (s21_sqrt(1 + s21_pow(x, 2))));
+    long double temp = 0;
+    if (x < 1 && x > -1 && x != 0)
+        temp = atan_1_1(x);
+    else if (x == 0)
+        temp = 0;
+    else if (x == 1)
+        temp = s21_PI / 4;
+    else if (x == -1)
+        temp = -s21_PI / 4;
+    else if (x > 1)
+        temp = s21_PI / 2 - atan_1_1(1 / x);
+    else
+        temp = -s21_PI / 2 - atan_1_1(1 / x);
+    return temp;
 }
 
-// 5
 long double s21_ceil(double x) {
     return (int)x != x
                ? ((x < 0) ? (long double)((int)x) : (long double)((int)x + 1))
                : (double)((int)x);
 }
-// 6
+
 long double s21_cos(double x) {
-    while (x > s21_PI || x < -s21_PI) {
-        x += x > s21_PI ? -2 * s21_PI : 2 * s21_PI;
-    }
+    if (x > 2 * s21_PI || x < -2 * s21_PI) x = s21_fmod(x, 2 * s21_PI);
     return s21_sin(s21_PI / 2 - x);
 }
 
-// 7
 long double s21_exp(double x) {
     long double result = 1;
     long double temp = 1;
@@ -65,19 +70,19 @@ long double s21_exp(double x) {
     (temp = flag == 1 ? (temp > s21_MAX_double ? 0 : 1. / temp) : temp);
     return temp > s21_MAX_double ? s21_INF : temp;
 }
-// 8
+
 long double s21_fabs(double x) { return (x < 0) ? -x : x; }
-// 9
+
 long double s21_floor(double x) {
     return (int)x != x
                ? ((x < 0) ? (long double)((int)x - 1) : (long double)((int)x))
                : (long double)((int)x);
 }
-// 10
+
 long double s21_fmod(double x, double y) {
     return y != 0 ? (x - ((long double)((int)(x / y))) * y) : s21_NAN;
 }
-// 11
+
 long double s21_log(double x) {
     long double sign = 1;
     long double degree = 0;
@@ -105,27 +110,103 @@ long double s21_log(double x) {
     }
     return result;
 }
-// 12
+
 long double s21_pow(double base, double exp) {
-    return (long double)s21_exp(exp * s21_log(base));
-}
-// 13
-long double s21_sin(double x) {
-    while (x > s21_PI || x < -s21_PI) {
-        x += x > s21_PI ? -2 * s21_PI : 2 * s21_PI;
+    long double number;
+    if (base < 0) {
+        if ((long int)exp == exp) {
+            if (exp > 0) {
+                number = base;
+                for (long int i = 0; i < (long int)exp - 1; i++) number *= base;
+
+            } else if (exp == 0) {
+                number = 1;
+            } else {
+                number = 1 / base;
+                for (long int i = 0; i < (long int)exp * (-1) - 1; i++) {
+                    number /= base;
+                }
+            }
+        } else {
+            if (exp == -s21_INF || exp == s21_INF) {
+                if (base * (-1) < 1) {
+                    number = 0;
+                } else if (base * (-1) == 1) {
+                    number = 1;
+                } else {
+                    if (exp == -s21_INF) {
+                        number = 0;
+                    } else {
+                        number = s21_INF;
+                    }
+                }
+            } else {
+                number = -s21_NAN;
+            }
+        }
+    } else if (base == 0) {
+        if (exp == 0)
+            number = 1;
+        else
+            number = 0;
+
+    } else if (base == 1) {
+        number = 1;
+    } else {
+        if ((long int)exp == exp) {
+            if (exp > 0) {
+                number = base;
+                for (long int i = 0; i < (long int)exp - 1; i++) {
+                    number *= base;
+                }
+            } else if (exp == 0) {
+                number = 1;
+            } else {
+                number = 1 / base;
+                for (long int i = 0; i < (long int)exp * (-1) - 1; i++) {
+                    number /= base;
+                }
+            }
+        } else {
+            number = s21_exp(exp * (double)s21_log(base));
+        }
     }
-    long double result = x, temp = x;
-    long double i = 1.;
+    return number;
+}
+
+long double s21_sin(double x) {
+    if (x > 2 * s21_PI || x < -2 * s21_PI) x = s21_fmod(x, 2 * s21_PI);
+    long double res = 0, pow = x, fact = 1;
+    for (int i = 0; s21_fabs(pow / fact) > s21_EPS; i++) {
+        res += pow / fact;
+        pow *= -1 * x * x;
+        fact *= (2 * (i + 1)) * (2 * (i + 1) + 1);
+    }
+
+    return res;
+}
+
+long double s21_sqrt(double x) {
+    long double result = 4;
+    if (x < 0) {
+        result = -s21_NAN;
+    } else {
+        long double temp = 0;
+        while (s21_fabs(result - temp) > s21_EPS) {
+            temp = result;
+            result = (temp + x / temp) / 2;
+        }
+    }
+    return result;
+}
+long double s21_tan(double x) { return (long double)(s21_sin(x) / s21_cos(x)); }
+
+long double atan_1_1(double x) {
+    long double result = x, temp = x, i = 1;
     while (s21_fabs(result) > s21_EPS) {
-        result = -1 * result * x * x / (2 * i * (2 * i + 1));
+        result = -1 * result * x * x * (2 * i - 1) / (2 * i + 1);
         i += 1;
         temp += result;
     }
     return temp;
 }
-// 14
-long double s21_sqrt(double x) {
-    return s21_pow(S21_E, (long double)0.5 * s21_log((long double)x));
-}
-// 15
-long double s21_tan(double x) { return (long double)(s21_sin(x) / s21_cos(x)); }
